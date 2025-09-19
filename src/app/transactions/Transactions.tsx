@@ -14,7 +14,9 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 		},
 	});
 
-	// TODO: Task #1 – delete authorization mutation
+	// NOTE: Task #1 – delete authorization mutation
+	//
+	// Implemented via DeleteTransactionButton for reusability.
 
 	if (loading && !data) {
 		return <div>Loading...</div>;
@@ -37,33 +39,36 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 						<th>Time ↕️</th>
 						<th>Status</th>
 						<th>Category</th>
-						{/* TODO: Task #1 – header for Delete column */}
+						{/* NOTE: Task #1 – header for Delete column */}
 						<th>Action</th>
 						<th></th>
 					</tr>
 				</StyledTableHeader>
 				<tbody>
-					{data?.transactions.map(transaction => (
-						<StyledTransaction key={transaction.id}>
-							<td>
-								<img src={transaction.iconURL} alt="" />
-							</td>
-							<td>{transaction.type}</td>
-							<td>{transaction.localizableTitle}</td>
-							<td>
-								{transaction.billingAmount.amount}
-								{transaction.billingAmount.currency}
-							</td>
-							<td>{transaction.time}</td>
-							<td>{transaction.status}</td>
-							<td>
-								<img src={transaction.categoryIconUrl} alt="" />
-							</td>
-							<td>
-								{transaction.status === "authorization" && <DeleteTransactionButton />}
-							</td>
-						</StyledTransaction>
-					))}
+					{data?.transactions
+						.filter(transaction => !transaction.deleted)
+						.map(transaction => (
+							<StyledTransaction key={transaction.id}>
+								<td>
+									<img src={transaction.iconURL} alt="" />
+								</td>
+								<td>{transaction.type}</td>
+								<td>{transaction.localizableTitle}</td>
+								<td>
+									{transaction.billingAmount.amount}
+									{transaction.billingAmount.currency}
+								</td>
+								<td>{transaction.time}</td>
+								<td>{transaction.status}</td>
+								<td>
+									<img src={transaction.categoryIconUrl} alt="" />
+								</td>
+								<td>
+									{transaction.status === "authorization" &&
+										<DeleteTransactionButton transaction={transaction} />}
+								</td>
+							</StyledTransaction>
+						))}
 				</tbody>
 			</StyledTable>
 		</StyledCard>

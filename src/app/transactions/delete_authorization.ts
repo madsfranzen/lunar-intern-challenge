@@ -1,4 +1,3 @@
-// delete_authorization.ts
 import { gql, MutationHookOptions, useMutation } from '@apollo/client';
 import { Transaction } from '../../framework/types/types';
 
@@ -15,24 +14,24 @@ const DeleteAuthorizationMutation = gql`
 `;
 
 interface deleteAuthorizationMutationData {
-  result: {
-    transaction: Transaction | null;
-    error: string | null;
-  };
+	result: {
+		transaction: Transaction | null;
+		error: string | null;
+	};
 }
 
 interface deleteAuthorizationMutationVariables {
-  transactionId: string;
+	transactionId: string;
 }
 
 export const useDeleteAuthorizationMutation = (
-  options?: MutationHookOptions<
-    deleteAuthorizationMutationData,
-    deleteAuthorizationMutationVariables
-  >
+	options?: MutationHookOptions<
+		deleteAuthorizationMutationData,
+		deleteAuthorizationMutationVariables
+	>
 ) => {
-  return useMutation<
-    deleteAuthorizationMutationData,
-    deleteAuthorizationMutationVariables
-  >(DeleteAuthorizationMutation, options);
+	return useMutation<
+		deleteAuthorizationMutationData,
+		deleteAuthorizationMutationVariables
+	>(DeleteAuthorizationMutation, options);
 };
