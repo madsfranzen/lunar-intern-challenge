@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useTransactionsQuery } from './get_transactions';
-import { useDeleteAuthorizationMutation } from "./delete_authorization";
+import { DeleteTransactionButton } from '../../framework/components/DeleteTransactionButton';
 
 type TransactionsProps = {
 	userId: string;
@@ -15,7 +15,6 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 	});
 
 	// TODO: Task #1 – delete authorization mutation
-	const [deleteAuthorization] = useDeleteAuthorizationMutation();
 
 	if (loading && !data) {
 		return <div>Loading...</div>;
@@ -39,6 +38,7 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 						<th>Status</th>
 						<th>Category</th>
 						{/* TODO: Task #1 – header for Delete column */}
+						<th>Action</th>
 						<th></th>
 					</tr>
 				</StyledTableHeader>
@@ -59,8 +59,9 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 							<td>
 								<img src={transaction.categoryIconUrl} alt="" />
 							</td>
-							{/* TODO: Task #1 – place Delete button here for authorization rows */}
-							<td></td>
+							<td>
+								{transaction.status === "authorization" && <DeleteTransactionButton />}
+							</td>
 						</StyledTransaction>
 					))}
 				</tbody>
