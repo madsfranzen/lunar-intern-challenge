@@ -1,3 +1,4 @@
+// delete_authorization.ts
 import { gql, MutationHookOptions, useMutation } from '@apollo/client';
 import { Transaction } from '../../framework/types/types';
 
