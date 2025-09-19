@@ -12,6 +12,7 @@ interface DeleteTransactionButtonProps {
 export function DeleteTransactionButton({ transaction }: DeleteTransactionButtonProps) {
 
 	const [deleteAuthorization] = useDeleteAuthorizationMutation({
+
 		// Logging for clarity about how the mutation is behaving.
 		// I kept it in the code for now to show my work process.
 		onCompleted: (data) => {
@@ -25,8 +26,12 @@ export function DeleteTransactionButton({ transaction }: DeleteTransactionButton
 			console.error('Unexpected error:', err);
 		},
 	});
-	
+
 	const handleDelete = () => {
+
+		const confirmed = window.confirm('Are you sure you want to delete this transaction?');
+		if(!confirmed) return;
+
 		deleteAuthorization({
 			variables: { transactionId: transaction.id },
 			optimisticResponse: {
