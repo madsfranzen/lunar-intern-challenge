@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { useTransactionsQuery } from './get_transactions';
 import { DeleteTransactionButton } from '../../framework/components/DeleteTransactionButton';
+import { SearchBar } from '../../framework/components/SearchBar';
 
 type TransactionsProps = {
 	userId: string;
@@ -14,6 +15,8 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 			userId,
 		},
 	});
+
+	const [searchQuery, setSearchQuery] = React.useState('');
 
 	const [sortOrder, setSortOrder] = React.useState<'none' | 'newest' | 'oldest'>('none');
 
@@ -36,7 +39,11 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 	// Always filtering out deleted transactions so that they:
 	// 1. Don't show up in table
 	// 2. Don't impact sorting even though they are "deleted"
+	// 3. Don't impact search
 	let transactions = (data?.transactions || []).filter(tx => !tx.deleted);
+
+	// Filter transactions by searchQuery
+	transactions = transactions.filter(tx => tx.localizableTitle.toLowerCase().includes(searchQuery.toLowerCase()));
 
 	if (sortOrder === 'newest') {
 		transactions.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
@@ -46,6 +53,7 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 
 	return (
 		<StyledCard>
+			<SearchBar value={searchQuery} onChange={setSearchQuery} placeholder='Search by title...' />
 			<StyledTable>
 				<StyledTableHeader>
 					<tr>
