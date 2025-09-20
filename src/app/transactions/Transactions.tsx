@@ -75,7 +75,7 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 									{transaction.billingAmount.amount}
 									{transaction.billingAmount.currency}
 								</td>
-								<td>{transaction.time}</td>
+								<td>{new Date(transaction.time).toLocaleString()}</td>
 								<td>{transaction.status}</td>
 								<td>
 									<img src={transaction.categoryIconUrl} alt="" />
