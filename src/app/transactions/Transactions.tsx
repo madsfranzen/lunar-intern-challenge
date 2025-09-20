@@ -26,6 +26,11 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 		return <div>An error occurred 😭</div>;
 	}
 
+	// Always filtering out deleted transactions so that they:
+	// 1. Don't show up in table
+	// 2. Don't impact sorting even though they are "deleted"
+	const transactions = (data?.transactions || []).filter(tx => !tx.deleted);
+
 	return (
 		<StyledCard>
 			<StyledTable>
@@ -45,8 +50,7 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 					</tr>
 				</StyledTableHeader>
 				<tbody>
-					{data?.transactions
-						.filter(transaction => !transaction.deleted)
+					{transactions
 						.map(transaction => (
 							<StyledTransaction key={transaction.id}>
 								<td>
