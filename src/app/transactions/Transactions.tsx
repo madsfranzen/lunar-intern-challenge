@@ -8,15 +8,22 @@ type TransactionsProps = {
 };
 
 export const Transactions = ({ userId }: TransactionsProps) => {
+
 	const { data, loading, error } = useTransactionsQuery({
 		variables: {
 			userId,
 		},
 	});
 
-	// NOTE: Task #1 – delete authorization mutation
-	//
-	// Implemented via DeleteTransactionButton for reusability.
+	const [sortOrder, setSortOrder] = React.useState<'none' | 'newest' | 'oldest'>('none');
+
+	const toggleSort = () => {
+		setSortOrder(prev => {
+			if (prev === 'none') return 'newest';
+			if (prev === 'newest') return 'oldest';
+			return 'none';
+		});
+	};
 
 	if (loading && !data) {
 		return <div>Loading...</div>;
@@ -29,7 +36,13 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 	// Always filtering out deleted transactions so that they:
 	// 1. Don't show up in table
 	// 2. Don't impact sorting even though they are "deleted"
-	const transactions = (data?.transactions || []).filter(tx => !tx.deleted);
+	let transactions = (data?.transactions || []).filter(tx => !tx.deleted);
+
+	if (sortOrder === 'newest') {
+		transactions.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+	} else if (sortOrder === 'oldest') {
+		transactions.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+	}
 
 	return (
 		<StyledCard>
@@ -40,11 +53,11 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 						<th>Type</th>
 						<th>Title</th>
 						<th>Amount</th>
-						{/* TODO: Task #2 – clicking this header should toggle date sorting */}
-						<th>Time ↕️</th>
+						<SortableHeader onClick={toggleSort}>
+							Time {sortOrder === 'newest' ? '⬇️' : sortOrder === 'oldest' ? '⬆️' : '↕️'}
+						</SortableHeader>
 						<th>Status</th>
 						<th>Category</th>
-						{/* NOTE: Task #1 – header for Delete column */}
 						<th>Action</th>
 						<th></th>
 					</tr>
@@ -95,6 +108,10 @@ const StyledTableHeader = styled.thead`
   th {
     text-align: left;
   }
+`;
+
+const SortableHeader = styled.th`
+  cursor: pointer;
 `;
 
 const StyledTransaction = styled.tr`
