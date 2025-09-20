@@ -2,10 +2,32 @@ import * as React from 'react';
 import { Button } from './Button';
 import { useDeleteAuthorizationMutation } from '../../app/transactions/delete_authorization';
 import { Transaction } from '../../framework/types/types';
+import styled, { css } from 'styled-components';
 
 interface DeleteTransactionButtonProps {
 	transaction: Transaction;
 }
+
+// overriding some of the styling from the default button implementation
+const DeleteButton = styled(Button)(
+	({ theme }) => css`
+    background-color: ${theme.fade2};
+    color: ${theme.text};
+    transition:
+      background-color 150ms linear,
+      color 150ms linear,
+      transform 150ms linear;
+
+    &:hover, &:focus-visible {
+      background: ${theme.button.negative.default};
+	  color: white;
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid ${theme.fade10};
+    }
+	`);
 
 // Taking in the full transaction in case we need more than just ID for validation or other checks.
 // Using an optimistic update to make the row disappear immediately in the UI.
@@ -30,7 +52,7 @@ export function DeleteTransactionButton({ transaction }: DeleteTransactionButton
 	const handleDelete = () => {
 
 		const confirmed = window.confirm('Are you sure you want to delete this transaction?');
-		if(!confirmed) return;
+		if (!confirmed) return;
 
 		deleteAuthorization({
 			variables: { transactionId: transaction.id },
@@ -45,6 +67,6 @@ export function DeleteTransactionButton({ transaction }: DeleteTransactionButton
 		});
 	};
 
-	return <Button onClick={handleDelete}>Delete</Button>;
+	return <DeleteButton onClick={handleDelete}>Delete</DeleteButton>;
 }
 
