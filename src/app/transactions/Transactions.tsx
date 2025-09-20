@@ -70,7 +70,10 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 						.map(transaction => (
 							<StyledTransaction key={transaction.id}>
 								<td>
-									<img src={transaction.iconURL} alt="" />
+									<img src={transaction.iconURL} alt=""
+										onError={(e) => {
+											e.currentTarget.src = 'https://www.svgrepo.com/show/451131/no-image.svg'
+										}} />
 								</td>
 								<td>{transaction.type}</td>
 								<td>{transaction.localizableTitle}</td>
