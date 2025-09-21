@@ -60,54 +60,61 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 	return (
 		<StyledCard>
 			<SearchBar value={searchQuery} onChange={setSearchQuery} placeholder='Search by title...' />
-			<StyledTable>
-				<StyledTableHeader>
-					<tr>
-						<th>Icon</th>
-						<th>Type</th>
-						<th>Title</th>
-						<th>Amount</th>
-						<SortableHeader onClick={toggleSort}>
-							<span>Time
-								<span>
-									{sortOrder === 'newest' ? '⬇️' : sortOrder === 'oldest' ? '⬆️' : '↕️'}
+
+			{transactions.length === 0 ? (
+				<div>No transactions found...</div>
+
+			) : (
+
+				<StyledTable>
+					<StyledTableHeader>
+						<tr>
+							<th>Icon</th>
+							<th>Type</th>
+							<th>Title</th>
+							<th>Amount</th>
+							<SortableHeader onClick={toggleSort}>
+								<span>Time
+									<span>
+										{sortOrder === 'newest' ? '⬇️' : sortOrder === 'oldest' ? '⬆️' : '↕️'}
+									</span>
 								</span>
-							</span>
-						</SortableHeader>
-						<th>Status</th>
-						<th>Category</th>
-						<th>Action</th>
-					</tr>
-				</StyledTableHeader>
-				<tbody>
-					{transactions
-						.map(transaction => (
-							<StyledTransaction key={transaction.id}>
-								<td>
-									<img src={transaction.iconURL} alt=""
-										onError={(e) => {
-											e.currentTarget.src = 'https://www.svgrepo.com/show/451131/no-image.svg'
-										}} />
-								</td>
-								<td>{transaction.type}</td>
-								<td>{transaction.localizableTitle}</td>
-								<td>
-									{transaction.billingAmount.amount}
-									{transaction.billingAmount.currency}
-								</td>
-								<td>{new Date(transaction.time).toLocaleString()}</td>
-								<td>{transaction.status}</td>
-								<td>
-									<img src={transaction.categoryIconUrl} alt="" />
-								</td>
-								<td>
-									{transaction.status === "authorization" &&
-										<DeleteTransactionButton transaction={transaction} />}
-								</td>
-							</StyledTransaction>
-						))}
-				</tbody>
-			</StyledTable>
+							</SortableHeader>
+							<th>Status</th>
+							<th>Category</th>
+							<th>Action</th>
+						</tr>
+					</StyledTableHeader>
+					<tbody>
+						{transactions
+							.map(transaction => (
+								<StyledTransaction key={transaction.id}>
+									<td>
+										<img src={transaction.iconURL} alt=""
+											onError={(e) => {
+												e.currentTarget.src = 'https://www.svgrepo.com/show/451131/no-image.svg'
+											}} />
+									</td>
+									<td>{transaction.type}</td>
+									<td>{transaction.localizableTitle}</td>
+									<td>
+										{transaction.billingAmount.amount}
+										{transaction.billingAmount.currency}
+									</td>
+									<td>{new Date(transaction.time).toLocaleString()}</td>
+									<td>{transaction.status}</td>
+									<td>
+										<img src={transaction.categoryIconUrl} alt="" />
+									</td>
+									<td>
+										{transaction.status === "authorization" &&
+											<DeleteTransactionButton transaction={transaction} />}
+									</td>
+								</StyledTransaction>
+							))}
+					</tbody>
+				</StyledTable>
+			)}
 		</StyledCard>
 	);
 };
