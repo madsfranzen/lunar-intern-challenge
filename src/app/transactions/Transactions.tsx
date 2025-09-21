@@ -49,7 +49,7 @@ export const Transactions = ({ userId }: TransactionsProps) => {
 	let transactions = (data?.transactions || []).filter(tx => !tx.deleted);
 
 	// Filter transactions by searchQuery
-	transactions = transactions.filter(tx => tx.localizableTitle.toLowerCase().includes(searchQuery.toLowerCase()));
+	transactions = transactions.filter(tx => tx.localizableTitle.toLowerCase().includes(searchQuery.toLowerCase().trim()));
 
 	if (sortOrder === 'newest') {
 		transactions.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
