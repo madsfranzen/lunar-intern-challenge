@@ -8,46 +8,11 @@ interface DeleteTransactionButtonProps {
 	transaction: Transaction;
 }
 
-// overriding some of the styling from the default button implementation
-const DeleteButton = styled(Button)(
-	({ theme }) => css`
-    background-color: ${theme.fade2};
-    color: ${theme.text};
-    transition:
-      background-color 150ms linear,
-      color 150ms linear,
-      transform 150ms linear;
-
-    &:hover, &:focus-visible {
-      background: ${theme.button.negative.default};
-	  color: white;
-      transform: translateY(-1px);
-    }
-
-    &:focus-visible {
-      outline: 2px solid ${theme.fade10};
-    }
-	`);
-
-// Taking in the full transaction in case we need more than just ID for validation or other checks.
+// Taking in the full transaction in case we need more than just ID for validation or other checks later on.
 // Using an optimistic update to make the row disappear immediately in the UI.
 export function DeleteTransactionButton({ transaction }: DeleteTransactionButtonProps) {
 
-	const [deleteAuthorization] = useDeleteAuthorizationMutation({
-
-		// Logging for clarity about how the mutation is behaving.
-		// I kept it in the code for now to show my work process.
-		onCompleted: (data) => {
-			if (data.result.error) {
-				console.error('Failed to delete transaction:', data);
-			} else {
-				console.log('Transaction successfully deleted:', data);
-			}
-		},
-		onError: (err) => {
-			console.error('Unexpected error:', err);
-		},
-	});
+	const [deleteAuthorization] = useDeleteAuthorizationMutation();
 
 	const handleDelete = () => {
 
@@ -70,3 +35,23 @@ export function DeleteTransactionButton({ transaction }: DeleteTransactionButton
 	return <DeleteButton onClick={handleDelete}>Delete</DeleteButton>;
 }
 
+// overriding some of the styling from the default button implementation
+const DeleteButton = styled(Button)(
+	({ theme }) => css`
+    background-color: ${theme.fade2};
+    color: ${theme.text};
+    transition:
+      background-color 150ms linear,
+      color 150ms linear,
+      transform 150ms linear;
+
+    &:hover, &:focus-visible {
+      background: ${theme.button.negative.default};
+	  color: white;
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid ${theme.fade10};
+    }
+`);
