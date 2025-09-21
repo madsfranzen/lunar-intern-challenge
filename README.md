@@ -74,3 +74,14 @@ We expect you to spend up to eight hours on this challenge — and remember, we 
 Push your solution to a public GitHub repo (or private and invite us) and share the link, or zip the folder and email it.
 
 Good luck – and have fun! ✨
+
+
+--- 
+
+## 🤖 Notes on my use of AI
+
+I use AI extensively while developing and learning, primarily as a conversational pair-programmer/mentor. I do **not** use inline AI code completion or other tools inside my editor. I prefer an external workflow (ChatGPT, Gemini, or similar in a separate window) because I feel that it lets **me** control the context and lead the conversation much better. I form my own ideas and hypotheses first, then show the most relevant code or questions to the AI - similar to how you’d discuss a problem with a human mentor rather than handing them all your files and asking them to “fix this.”
+
+In this challenge, AI was particularly helpful for working with Apollo and GraphQL, which I had not used before - it was a huge help to me, making it easy and fast for me to figure out how to interact with Apollo. I used AI for guidance on React patterns as well inspiration for UI pieces. My workflow is to ask for clean, minimal examples with focus on best practices and maintainability, then adapt those suggestions to fit the project and the specific problem. I like to make the AI play devil’s advocate against both my ideas and its own, helping me view problems from multiple perspectives. 
+
+I feel that this workflow allows me to work quickly, develop clean and efficient solutions, and maintain a clear view of the big picture, while taking full ownership of my code.
